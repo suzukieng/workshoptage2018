@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project name="workshoptage2018" default="test">
-	<property file="/userhome/projects/phingtasks/local/build.properties" />
-	<import file="/userhome/projects/phingtasks/local/build.xml" />
-	<property file="build.properties" />
-</project>
