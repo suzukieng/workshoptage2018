@@ -1,3 +1,18 @@
+# Hyperledger Fabric files            #
+#######################################
+fabric/bin/
+fabric/channel-artifacts/
+fabric/crypto-config/
+fabric/crypto-config.yaml
+fabric/configtx.yaml
+fabric/ledger/
+
+# Docker generated files              #
+#######################################
+fabric/docker-compose-base/docker-compose-ca-base.yaml
+fabric/docker-compose.yaml
+fabric/docker-compose-cli.yaml
+
 # IDE folder                          #
 #######################################
 .idea/
