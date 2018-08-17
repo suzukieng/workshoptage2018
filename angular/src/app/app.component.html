@@ -1,0 +1,95 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<section class="welcome">
+  <h1>
+    Welcome to Collectable Penguins!
+  </h1>
+  <div *ngIf="currentUser" class="user-info">
+    <img src="assets/images/congas/{{congaName}}.jpeg" height="100px" width="125px">
+    <h2>{{currentUser.split('#')[1]}}</h2>
+  </div>
+</section>
+<section *ngIf="!authenticated">
+  <a href="http://localhost:3000/auth/github">Sign in with github</a>
+</section>
+<section *ngIf="authenticated && !loggedIn">
+  <h2>Sign up</h2>
+  <form (ngSubmit)="onSignUp()" #signupForm="ngForm">
+    <table>
+      <colgroup>
+        <col span="1" style="width: 11%;">
+        <col span="1" style="width: 89%;">
+      </colgroup>
+      <tr>
+        <td>
+          <label>ID</label>
+        </td>
+        <td>
+          <input type="text" [(ngModel)]="signUp.id" #id="ngModel" name="id">
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label>First Name</label>
+        </td>
+        <td>
+          <input type="text" [(ngModel)]="signUp.firstName" #firstName="ngModel" name="firstName">
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label>Surname</label>
+        </td>
+        <td>
+          <input type="text" [(ngModel)]="signUp.surname" #surname="ngModel" name="surname">
+        </td>
+      </tr>
+    </table>
+    <button type="submit"
+            class="primary">
+      <div *ngIf="!signUpInProgress">
+        <span>Sign up</span>
+      </div>
+      <div *ngIf="signUpInProgress" class="ibm-spinner-indeterminate small loop">
+        <div class="loader">
+          <svg class="circular" viewBox="25 25 50 50">
+            <circle class="circle-path" cx="50" cy="50" r="20"/>
+          </svg>
+        </div>
+      </div>
+    </button>
+  </form>
+</section>
+<section *ngIf="loggedIn">
+  <h2>Available Penguins</h2>
+  <table>
+    <tr *ngFor="let penguin of availablePenguins | async">
+      <td>{{penguin.name}}</td>
+      <td>{{penguin.description}}</td>
+      <td><img src="assets/images/penguins/{{penguin.name}}.JPG" height="50px" width="50px"></td>
+      <td>
+        <button type="button"
+                class="primary" (click)="buyPenguin(penguin.name)">
+          <div *ngIf="!buyInProgress || buyInProgress && penguin.name!==boughtPenguin">
+            <span>Buy</span>
+          </div>
+          <div *ngIf="buyInProgress && penguin.name===boughtPenguin" class="ibm-spinner-indeterminate small loop">
+            <div class="loader">
+              <svg class="circular" viewBox="25 25 50 50">
+                <circle class="circle-path" cx="50" cy="50" r="20"/>
+              </svg>
+            </div>
+          </div>
+        </button>
+      </td>
+    </tr>
+  </table>
+
+  <h2>My Penguins</h2>
+  <table>
+    <tr *ngFor="let penguin of myPenguins | async">
+      <td>{{penguin.name}}</td>
+      <td>{{penguin.description}}</td>
+      <td><img src="assets/images/penguins/{{penguin.name}}.JPG" height="50px" width="50px"></td>
+    </tr>
+  </table>
+</section>
