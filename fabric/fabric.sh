@@ -139,7 +139,7 @@ function networkBuild () {
   cp "$CLI_COMPOSE_FILE" "$COMPOSE_FILE"
 
   # remove unused configurations
-  sed $OPTS '/cli:/,/- fabric/d' $COMPOSE_FILE
+  sed $OPTS '/fabric-cli:/,/- fabric/d' $COMPOSE_FILE
   # If MacOSX, remove the temporary backup of the docker-compose file
   if [ "$ARCH" == "Darwin" ]; then
     rm "${COMPOSE_FILE}t"
@@ -152,10 +152,10 @@ function networkBuild () {
 
   if [ $? -ne 0 ]; then
     echo "ERROR !!!! Unable to start network"
-    docker logs -f cli.$DOMAIN
+    docker logs -f fabric-cli.$DOMAIN
     exit 1
   fi
-  docker logs -f cli.$DOMAIN
+  docker logs -f fabric-cli.$DOMAIN
 
 }
 

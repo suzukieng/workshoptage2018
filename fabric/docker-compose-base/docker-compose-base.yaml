@@ -154,8 +154,8 @@ services:
     ports:
       - 9092:9092
 
-  cli:
-    container_name: cli.${DOMAIN}
+  fabric-cli:
+    container_name: fabric-cli.${DOMAIN}
     image: hyperledger/fabric-tools:$FABRIC_IMAGE_TAG
     tty: true
     environment:

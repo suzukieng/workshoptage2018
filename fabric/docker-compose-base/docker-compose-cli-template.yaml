@@ -89,10 +89,10 @@ services:
     networks:
       - ${HYPERLEDGER_FRAMEWORK_NAME}
 
-  cli:
+  fabric-cli:
     extends:
       file: docker-compose-base/docker-compose-base.yaml
-      service: cli
+      service: fabric-cli
     depends_on:
       - peer0.org1
       - peer1.org1
