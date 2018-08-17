@@ -13,6 +13,16 @@ fabric/docker-compose-base/docker-compose-ca-base.yaml
 fabric/docker-compose.yaml
 fabric/docker-compose-cli.yaml
 
+# Hyperledger Composer                #
+#######################################
+composer-logs
+composer/fabric-network/crypto-config
+composer/cards/*.card
+composer/network-archives/*.bna
+composer/.composer/
+composer/.ash_history
+composer/docker-compose.yaml
+
 # IDE folder                          #
 #######################################
 .idea/

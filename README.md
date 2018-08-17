@@ -23,19 +23,43 @@ if you want to change the logging level of the peers you can change the FABRIC_L
 - $ ./scripts/download.sh -m images
 
 ### Build the fabric network (for first time setup)
-- $ ./network.sh -m build
+- $ ./fabric.sh -m build
 
 now if you run 'docker ps' you wil see that all containers are running
 
 ### Start or stop the network (not for first time setup)
 - $ cd fabric
-- $ ./network.sh -m start
-- $ ./network.sh -m stop
+- $ ./fabric.sh -m start
+- $ ./fabric.sh -m stop
 
 ### Remove the network including the data 
 - $ cd fabric
-- $ ./network.sh -m down
+- $ ./fabric.sh -m down
 
 ### Recreate the containers without losing the data (not for first time setup)
 - $  cd fabric/
-- $ ./network.sh -m recreate
+- $ ./fabric.sh -m recreate
+
+
+## Composer
+
+### Install Composer (for first time setup)
+- $ cd composer/
+- $ ./composer.sh -m build
+
+### Deploy the network and create the cards (Business network name is 'composer-network') (for first time setup)
+- $ cd composer/
+- $ ./composer.sh -m deploy     # business network name is 'composer-network' & it will take a while ;)
+
+### If you want to update your business network (not for first time setup)
+- $ cd composer/
+- $ ./composer.sh -m upgrade
+
+### Start or stop composer-cli container (not for first time setup)
+- $ cd composer/
+- $ ./composer.sh -m start
+- $ ./composer.sh -m stop
+
+### Recreate the container without losing the data (not for first time setup)
+- $ cd composer/
+- $ ./composer.sh -m recreate
