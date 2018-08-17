@@ -7,6 +7,7 @@ These instructions are only for MacOSX and Linux (Debian or Ubuntu).
 - cURL
 - git
 - Docker & Docker Compose
+- node & npm
 
 ## Fabric
 - $ cd fabric
@@ -78,3 +79,9 @@ add the clientID and clientSecret values to COMPOSER_PROVIDERS object in fabric/
 ### Recreate the containers without losing the data (not for first time setup)
 - $ cd rest-server/
 - $ ./rest-server.sh -m recreate
+
+## Angular
+- $ cd angular/
+- $ npm install
+- $ ng start
+- Open http://localhost:4200/ on your browser

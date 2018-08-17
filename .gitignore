@@ -26,9 +26,46 @@ composer/.composer/
 rest-server/.composer/
 rest-server/.mongodb/
 
+# Angular                             #
+#######################################
+# compiled output
+angular/dist
+angular/tmp
+angular/out-tsc
+
+# dependencies
+angular/node_modules
+
+# misc
+angular/.sass-cache
+angular/connect.lock
+angular/coverage
+angular/libpeerconnection.log
+angular/npm-debug.log
+angular/testem.log
+angular/typings
+
+# e2e
+angular/e2e/*.js
+angular/e2e/*.map
+
+
 # IDE folder                          #
 #######################################
 .idea/
+# IDEs and editors
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+
+# IDE - VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
 
 # OS generated files                  #
 #######################################
