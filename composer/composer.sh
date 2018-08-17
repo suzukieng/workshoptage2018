@@ -144,9 +144,6 @@ EOF
 
 # create node container and install composer-cli on it
 function buildComposer () {
-
-  docker stop ${COMPOSER_CONTAINER_NAME} || true && docker rm -f ${COMPOSER_CONTAINER_NAME} || true
-
   rm -rf ${DIR}/.composer
 
   runComposerContainer
@@ -160,6 +157,8 @@ function recreateComposer () {
 
 
 function runComposerContainer() {
+    docker stop ${COMPOSER_CONTAINER_NAME} || true && docker rm -f ${COMPOSER_CONTAINER_NAME} || true
+
     docker run \
       -d \
       -it \
