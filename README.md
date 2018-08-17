@@ -8,10 +8,6 @@ These instructions are only for MacOSX and Linux (Debian or Ubuntu).
 - git
 - Docker & Docker Compose
 
-### for the frontend
-- node & npm
-
-
 ## Fabric
 - $ cd fabric
 
@@ -40,20 +36,19 @@ now if you run 'docker ps' you wil see that all containers are running
 - $  cd fabric/
 - $ ./fabric.sh -m recreate
 
-
 ## Composer
 
 ### Install Composer (for first time setup)
 - $ cd composer/
 - $ ./composer.sh -m build
 
-### Deploy the network and create the cards (Business network name is 'composer-network') (for first time setup)
+### Deploy the network and create the cards (Business network name is 'collectable-penguin-network') (for first time setup)
 - $ cd composer/
-- $ ./composer.sh -m deploy     # business network name is 'composer-network' & it will take a while ;)
+- $ ./composer.sh -m deploy     # business network name is 'collectable-penguin-network' & it will take a while ;)
 
 ### If you want to update your business network (not for first time setup)
 - $ cd composer/
-- $ ./composer.sh -m upgrade
+- $ ./composer.sh -m upgrade    # business network name is 'collectable-penguin-network'
 
 ### Start or stop composer-cli container (not for first time setup)
 - $ cd composer/
@@ -63,3 +58,23 @@ now if you run 'docker ps' you wil see that all containers are running
 ### Recreate the container without losing the data (not for first time setup)
 - $ cd composer/
 - $ ./composer.sh -m recreate
+
+## Rest Server & mongo containers (Business network name is 'collectable-penguin-network') (for first time setup)
+
+Before you start the rest server, you must follow this tutorial (beginning from: Configuring the REST server to use an authentication strategy) 
+https://hyperledger.github.io/composer/latest/integrating/enabling-rest-authentication
+
+add the clientID and clientSecret values to COMPOSER_PROVIDERS object in fabric/.env
+
+### Create rest & mongo containers
+- $ cd rest-server/
+- $ ./rest-server.sh -m build   # business network name is 'collectable-penguin-network'
+
+### Start or stop the rest Server & mongo containers (not for first time setup) (not for first time setup)
+- $ cd rest-server/
+- $ ./rest-server.sh -m start
+- $ ./rest-server.sh -m stop
+
+### Recreate the containers without losing the data (not for first time setup)
+- $ cd rest-server/
+- $ ./rest-server.sh -m recreate

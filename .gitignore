@@ -20,8 +20,11 @@ composer/fabric-network/crypto-config
 composer/cards/*.card
 composer/network-archives/*.bna
 composer/.composer/
-composer/.ash_history
-composer/docker-compose.yaml
+
+# rest-server                         #
+#######################################
+rest-server/.composer/
+rest-server/.mongodb/
 
 # IDE folder                          #
 #######################################
