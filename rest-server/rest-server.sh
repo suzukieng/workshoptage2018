@@ -125,7 +125,27 @@ function createContainers() {
         -p 27017:27017 \
         mongo
 
-    sleep 10
+    echo "waiting for mongo database to start ..."
+    sleep 20
+
+    # Start a new instance of the extended Docker image for the REST server that created.
+    # This REST server will run in single-user mode und used to the create participants and cards.
+    docker run \
+        -d \
+        -e COMPOSER_CARD=${CA_USER_ENROLLMENT}@${COMPOSER_NETWORK_NAME} \
+        -e COMPOSER_NAMESPACES=${COMPOSER_NAMESPACES} \
+        -e COMPOSER_AUTHENTICATION=false \
+        -e COMPOSER_MULTIUSER=false \
+        -e COMPOSER_TLS=${COMPOSER_TLS} \
+        -e COMPOSER_WEBSOCKETS=${COMPOSER_WEBSOCKETS} \
+        -e PORT=3001 \
+        -e TZ=${TIME_ZONE} \
+        -v ${DIR}/.composer:/home/composer/.composer \
+        --name single-user-rest-server.${DOMAIN} \
+        --network ${FABRIC_DOCKER_NETWORK_NAME} \
+        --restart=always \
+        -p 3001:3001 \
+        ${DOMAIN}/rest-server
 
     # Start a new instance of the extended Docker image for the REST server that created.
     # This REST server will run in multi-user mode und used to the authentication.
@@ -146,25 +166,6 @@ function createContainers() {
         --network ${FABRIC_DOCKER_NETWORK_NAME} \
         --restart=always \
         -p 3000:3000 \
-        ${DOMAIN}/rest-server
-
-    # Start a new instance of the extended Docker image for the REST server that created.
-    # This REST server will run in single-user mode und used to the create participants and cards.
-    docker run \
-        -d \
-        -e COMPOSER_CARD=${CA_USER_ENROLLMENT}@${COMPOSER_NETWORK_NAME} \
-        -e COMPOSER_NAMESPACES=${COMPOSER_NAMESPACES} \
-        -e COMPOSER_AUTHENTICATION=false \
-        -e COMPOSER_MULTIUSER=false \
-        -e COMPOSER_TLS=${COMPOSER_TLS} \
-        -e COMPOSER_WEBSOCKETS=${COMPOSER_WEBSOCKETS} \
-        -e PORT=3001 \
-        -e TZ=${TIME_ZONE} \
-        -v ${DIR}/.composer:/home/composer/.composer \
-        --name single-user-rest-server.${DOMAIN} \
-        --network ${FABRIC_DOCKER_NETWORK_NAME} \
-        --restart=always \
-        -p 3001:3001 \
         ${DOMAIN}/rest-server
 }
 
