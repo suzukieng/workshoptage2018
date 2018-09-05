@@ -1,5 +1,5 @@
 {
-  "name": "collectable-penguin-network",
+  "name": "penguin",
   "version": "0.0.1",
   "description": "Hyperledger Composer Network Definition",
   "scripts": {
