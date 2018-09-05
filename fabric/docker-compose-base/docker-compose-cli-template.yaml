@@ -11,11 +11,7 @@ volumes:
   ca.org1.DOMAIN:
   orderer.DOMAIN:
   peer0.org1.DOMAIN:
-  peer1.org1.DOMAIN:
   couchdb0.peer0.org1.DOMAIN:
-  couchdb1.peer1.org1.DOMAIN:
-  kafka.orderer.DOMAIN:
-  zookeeper.kafka.orderer.DOMAIN:
 
 networks:
   NETWORK-NAME:
@@ -34,7 +30,6 @@ services:
       file: docker-compose-base/docker-compose-base.yaml
       service: orderer
     depends_on:
-      - kafka.orderer
       - ca.org1
     networks:
       - ${HYPERLEDGER_FRAMEWORK_NAME}
@@ -53,48 +48,5 @@ services:
     depends_on:
       - couchdb0.peer0.org1
       - orderer
-    networks:
-      - ${HYPERLEDGER_FRAMEWORK_NAME}
-
-  couchdb1.peer1.org1:
-    extends:
-      file: docker-compose-base/docker-compose-base.yaml
-      service: couchdb1.peer1.org1
-    networks:
-      - ${HYPERLEDGER_FRAMEWORK_NAME}
-
-  peer1.org1:
-    extends:
-      file: docker-compose-base/docker-compose-base.yaml
-      service: peer1.org1
-    depends_on:
-      - couchdb1.peer1.org1
-      - orderer
-    networks:
-      - ${HYPERLEDGER_FRAMEWORK_NAME}
-
-  zookeeper.kafka.orderer:
-    extends:
-      file: docker-compose-base/docker-compose-base.yaml
-      service: zookeeper.kafka.orderer
-    networks:
-      - ${HYPERLEDGER_FRAMEWORK_NAME}
-
-  kafka.orderer:
-    extends:
-      file: docker-compose-base/docker-compose-base.yaml
-      service: kafka.orderer
-    depends_on:
-      - zookeeper.kafka.orderer
-    networks:
-      - ${HYPERLEDGER_FRAMEWORK_NAME}
-
-  fabric-cli:
-    extends:
-      file: docker-compose-base/docker-compose-base.yaml
-      service: fabric-cli
-    depends_on:
-      - peer0.org1
-      - peer1.org1
     networks:
       - ${HYPERLEDGER_FRAMEWORK_NAME}

@@ -36,7 +36,7 @@ PeerOrgs:
     # or the template used to construct the name (Hostname).
     # ---------------------------------------------------------------------------
     Template:
-      Count: 2
+      Count: 1
       # Start: 5
       # Hostname: {{.Prefix}}{{.Index}} # default
     # ---------------------------------------------------------------------------

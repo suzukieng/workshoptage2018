@@ -9,7 +9,7 @@
 # This script will orchestrate end-to-end execution of the Hyperledger Fabric network.
 #
 # The end-to-end verification provisions a Fabric network consisting of
-# on organization with maintaining two peers, and a “kafka” ordering service.
+# on organization with maintaining one peer, and a “solo” ordering service.
 #
 # This verification makes use of two fundamental tools, which are necessary to
 # create a functioning transactional network with digital signature validation
@@ -101,6 +101,17 @@ function removeUnwantedImages() {
 
 # Generate the needed certificates, the genesis block and start the network.
 function networkBuild () {
+
+echo
+echo " ____    _____      _      ____    _____ "
+echo "/ ___|  |_   _|    / \    |  _ \  |_   _|"
+echo "\___ \    | |     / _ \   | |_) |   | |  "
+echo " ___) |   | |    / ___ \  |  _ <    | |  "
+echo "|____/    |_|   /_/   \_\ |_| \_\   |_|  "
+echo
+echo "BuildFabricNetwork"
+echo
+
   # generate artifacts if they don't exist
   if [ ! -d "crypto-config" ]; then
     generateCerts
@@ -138,24 +149,33 @@ function networkBuild () {
   # Copy the template to the file that will be modified
   cp "$CLI_COMPOSE_FILE" "$COMPOSE_FILE"
 
-  # remove unused configurations
-  sed $OPTS '/fabric-cli:/,/- fabric/d' $COMPOSE_FILE
-  # If MacOSX, remove the temporary backup of the docker-compose file
-  if [ "$ARCH" == "Darwin" ]; then
-    rm "${COMPOSE_FILE}t"
-  fi
-
   # remove ledger data
   rm -rf ./ledger
 
   CHANNEL_NAME=$CHANNEL_NAME TIMEOUT=$CLI_TIMEOUT DELAY=$CLI_DELAY docker-compose -f $CLI_COMPOSE_FILE up -d 2>&1
 
-  if [ $? -ne 0 ]; then
-    echo "ERROR !!!! Unable to start network"
-    docker logs -f fabric-cli.$DOMAIN
-    exit 1
-  fi
-  docker logs -f fabric-cli.$DOMAIN
+  # wait for Hyperledger Fabric to start
+  echo "sleeping for ${TIMEOUT} seconds to wait for fabric to complete start up"
+  sleep $TIMEOUT
+
+  ORDERER_CA=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/$DOMAIN/orderers/orderer.$DOMAIN/msp/tlscacerts/tlsca.$DOMAIN-cert.pem
+  # Create channel
+  docker exec -e "CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/msp/users/Admin@org1.${DOMAIN}/msp" peer0.org1.${DOMAIN} peer channel create -o orderer.$DOMAIN:7050 -c $CHANNEL_NAME -f $CHANNEL_ARTIFACTS_PATH/$CHANNEL_FILE_NAME --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA
+
+  # Join peer0.org1 to the channel.
+  docker exec -e "CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/msp/users/Admin@org1.${DOMAIN}/msp" peer0.org1.${DOMAIN} peer channel join -b $CHANNEL_NAME.block
+
+echo
+echo "========= All GOOD, BuildFabricNetwork execution completed =========== "
+echo
+
+echo
+echo " _____   _   _   ____   "
+echo "| ____| | \ | | |  _ \  "
+echo "|  _|   |  \| | | | | | "
+echo "| |___  | |\  | | |_| | "
+echo "|_____| |_| \_| |____/  "
+echo
 
 }
 

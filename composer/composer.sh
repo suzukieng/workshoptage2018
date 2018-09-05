@@ -38,7 +38,6 @@ function connectionCredentials () {
     CA_CERT="$(awk '{printf "%s\\n", $0}' ${FABRIC_CRYPTO_CONFIG}/peerOrganizations/org1.${DOMAIN}/ca/ca.org1.${DOMAIN}-cert.pem)"
     ORDERER_CERT="$(awk '{printf "%s\\n", $0}' ${FABRIC_CRYPTO_CONFIG}/ordererOrganizations/${DOMAIN}/orderers/orderer.${DOMAIN}/msp/tlscacerts/tlsca.${DOMAIN}-cert.pem)"
     PEER0_CERT="$(awk '{printf "%s\\n", $0}' ${FABRIC_CRYPTO_CONFIG}/peerOrganizations/org1.${DOMAIN}/peers/peer0.org1.${DOMAIN}/msp/tlscacerts/tlsca.org1.${DOMAIN}-cert.pem)"
-    PEER1_CERT="$(awk '{printf "%s\\n", $0}' ${FABRIC_CRYPTO_CONFIG}/peerOrganizations/org1.${DOMAIN}/peers/peer1.org1.${DOMAIN}/msp/tlscacerts/tlsca.org1.${DOMAIN}-cert.pem)"
 
 cat << EOF > .connection.json
 {
@@ -70,12 +69,6 @@ cat << EOF > .connection.json
           "chaincodeQuery": true,
           "ledgerQuery": true,
           "eventSource": true
-        },
-        "peer1.org1.${DOMAIN}": {
-          "endorsingPeer": true,
-          "chaincodeQuery": true,
-          "ledgerQuery": true,
-          "eventSource": true
         }
       }
     }
@@ -84,8 +77,7 @@ cat << EOF > .connection.json
     "Org1": {
       "mspid": "Org1MSP",
       "peers": [
-        "peer0.org1.${DOMAIN}",
-        "peer1.org1.${DOMAIN}"
+        "peer0.org1.${DOMAIN}"
       ],
       "certificateAuthorities": [
         "ca.org1.${DOMAIN}"
@@ -115,16 +107,6 @@ cat << EOF > .connection.json
       },
       "tlsCACerts": {
         "pem": "${PEER0_CERT}"
-      }
-    },
-    "peer1.org1.${DOMAIN}": {
-      "url": "grpcs://peer1.org1.${DOMAIN}:7051",
-      "eventUrl": "grpcs://peer1.org1.${DOMAIN}:7053",
-      "grpcOptions": {
-        "ssl-target-name-override": "peer1.org1.${DOMAIN}"
-      },
-      "tlsCACerts": {
-        "pem": "${PEER1_CERT}"
       }
     }
   },
