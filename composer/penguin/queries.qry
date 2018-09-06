@@ -1,0 +1,16 @@
+/**
+ * New query file
+ */
+query availablePenguins{
+  description: "Select all penguins that are owned by the whole saler"
+  statement:
+      SELECT org.collectable.penguin.Penguin
+          WHERE (owner=='resource:org.collectable.penguin.Collector#WHOLESALER')
+}
+
+query myPenguins{
+  description: "Select all penguins that are owned by me"
+  statement:
+      SELECT org.collectable.penguin.Penguin
+          WHERE (owner!='resource:org.collectable.penguin.Collector#WHOLESALER')
+}

@@ -1,0 +1,83 @@
+#
+# Copyright 4eyes GmbH (https://www.4eyes.ch/) All Rights Reserved.
+#
+# This file contains all base configurations for all containers except the ca container
+#
+
+version: '2'
+
+services:
+
+  orderer:
+    container_name: orderer.${DOMAIN}
+    image: hyperledger/fabric-orderer:$FABRIC_IMAGE_TAG
+    environment:
+      - ORDERER_GENERAL_LOGLEVEL=${FABRIC_LOGGING_LEVEL}
+      - ORDERER_GENERAL_LISTENADDRESS=orderer.${DOMAIN}
+      - ORDERER_GENERAL_GENESISMETHOD=file
+      - ORDERER_GENERAL_GENESISFILE=/var/hyperledger/orderer/orderer.genesis.block
+      - ORDERER_GENERAL_LOCALMSPID=OrdererMSP
+      - ORDERER_GENERAL_LOCALMSPDIR=/var/hyperledger/orderer/msp
+      # enabled TLS
+      - ORDERER_GENERAL_TLS_ENABLED=true
+      - ORDERER_GENERAL_TLS_PRIVATEKEY=/var/hyperledger/orderer/tls/server.key
+      - ORDERER_GENERAL_TLS_CERTIFICATE=/var/hyperledger/orderer/tls/server.crt
+      - ORDERER_GENERAL_TLS_ROOTCAS=[/var/hyperledger/orderer/tls/ca.crt]
+      - CONFIGTX_ORDERER_ORDERERTYPE=solo
+      - TZ=${TIME_ZONE}
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric
+    command: orderer
+    volumes:
+      - ../${CHANNEL_ARTIFACTS_PATH}/${GENESIS_FILE_NAME}:/var/hyperledger/orderer/orderer.genesis.block
+      - ../crypto-config/ordererOrganizations/${DOMAIN}/orderers/orderer.${DOMAIN}/msp:/var/hyperledger/orderer/msp
+      - ../crypto-config/ordererOrganizations/${DOMAIN}/orderers/orderer.${DOMAIN}/tls/:/var/hyperledger/orderer/tls
+      - ../ledger/orderer.${DOMAIN}:/var/hyperledger/production/orderer
+    restart: always
+    ports:
+      - 7050:7050
+
+  couchdb0.peer0.org1:
+    container_name: couchdb0.peer0.org1.${DOMAIN}
+    image: hyperledger/fabric-couchdb:$FABRIC_THIRDPARTY_IMAGE_TAG
+    # Populate the COUCHDB_USER and COUCHDB_PASSWORD to set an admin user and password
+    # for CouchDB.  This will prevent CouchDB from operating in an "Admin Party" mode.
+    environment:
+      - COUCHDB_USER=${COUCHDB_USER}
+      - COUCHDB_PASSWORD=${COUCHDB_PASSWORD}
+      - TZ=${TIME_ZONE}
+    volumes:
+      - ../ledger/couchdb0.peer0.org1.${DOMAIN}:/opt/couchdb/data
+    restart: always
+    # Comment/Uncomment the port mapping if you want to hide/expose the CouchDB service.
+    ports:
+      - 5984:5984
+
+  peer0.org1:
+    container_name: peer0.org1.${DOMAIN}
+    extends:
+      file: docker-compose-peer-base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=peer0.org1.${DOMAIN}
+      - CORE_PEER_ADDRESS=peer0.org1.${DOMAIN}:7051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.org1.${DOMAIN}:7051
+      - CORE_PEER_LOCALMSPID=Org1MSP
+      - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/msp/users/Admin@org1.${DOMAIN}/msp
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb0.peer0.org1.${DOMAIN}:5984
+      # The CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME and CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD
+      # provide the credentials for ledger to connect to CouchDB.  The username and password must
+      # match the username and password set for the associated CouchDB.
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=${COUCHDB_USER}
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=${COUCHDB_PASSWORD}
+    volumes:
+        - /var/run/:/host/var/run/
+        - ../crypto-config/peerOrganizations/org1.${DOMAIN}/peers/peer0.org1.${DOMAIN}/msp:/etc/hyperledger/fabric/msp
+        - ../crypto-config/peerOrganizations/org1.${DOMAIN}/peers/peer0.org1.${DOMAIN}/tls:/etc/hyperledger/fabric/tls
+        - ../crypto-config/peerOrganizations/org1.${DOMAIN}/users:/etc/hyperledger/msp/users
+        - ../crypto-config:/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/
+        - ../ledger/peer0.org1.${DOMAIN}:/var/hyperledger/production
+        - ../${CHANNEL_ARTIFACTS_PATH}:/opt/gopath/src/github.com/hyperledger/fabric/peer/${CHANNEL_ARTIFACTS_PATH}
+    ports:
+      - 7051:7051
+      - 7053:7053

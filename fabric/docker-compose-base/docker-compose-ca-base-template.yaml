@@ -1,0 +1,28 @@
+#
+# Copyright 4eyes GmbH (https://www.4eyes.ch/) All Rights Reserved.
+#
+# This file contains the base configurations for the ca (Certificate Authority) container.
+# The file is used as a template for the actual file which will be created while building the network
+# and used to configure the ca container
+#
+
+version: '2'
+
+services:
+  ca.org1:
+    container_name: ca.org1.${DOMAIN}
+    image: hyperledger/fabric-ca:$FABRIC_IMAGE_TAG
+    environment:
+      - FABRIC_CA_HOME=/etc/hyperledger/fabric-ca-server
+      - FABRIC_CA_SERVER_CA_NAME=ca.org1.${DOMAIN}
+      - FABRIC_CA_SERVER_TLS_ENABLED=true
+      - FABRIC_CA_SERVER_TLS_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.org1.${DOMAIN}-cert.pem
+      - FABRIC_CA_SERVER_TLS_KEYFILE=/etc/hyperledger/fabric-ca-server-config/CA1_PRIVATE_KEY
+      - TZ=${TIME_ZONE}
+    command: sh -c 'fabric-ca-server start --ca.certfile /etc/hyperledger/fabric-ca-server-config/ca.org1.${DOMAIN}-cert.pem --ca.keyfile /etc/hyperledger/fabric-ca-server-config/CA1_PRIVATE_KEY -b ${CA_USER_ENROLLMENT}:${CA_ENROLLMENT_SECRET} ${FABRIC_CA_ENABLE_DEBUG}'
+    volumes:
+      - ../crypto-config/peerOrganizations/org1.${DOMAIN}/ca/:/etc/hyperledger/fabric-ca-server-config
+      - ../ledger/ca.org1.${DOMAIN}:/etc/hyperledger/fabric-ca-server
+    restart: always
+    ports:
+      - 7054:7054

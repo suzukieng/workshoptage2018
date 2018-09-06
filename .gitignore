@@ -1,0 +1,82 @@
+# Hyperledger Fabric files            #
+#######################################
+fabric/bin/
+fabric/channel-artifacts/
+fabric/crypto-config/
+fabric/crypto-config.yaml
+fabric/configtx.yaml
+fabric/ledger/
+
+# Docker generated files              #
+#######################################
+fabric/docker-compose-base/docker-compose-ca-base.yaml
+fabric/docker-compose.yaml
+fabric/docker-compose-cli.yaml
+
+# Hyperledger Composer                #
+#######################################
+composer-logs
+composer/fabric-network/crypto-config
+composer/cards/*.card
+composer/network-archives/*.bna
+composer/.composer/
+
+# rest-server                         #
+#######################################
+rest-server/.composer/
+rest-server/.mongodb/
+
+# Angular                             #
+#######################################
+# compiled output
+angular/dist
+angular/tmp
+angular/out-tsc
+
+# dependencies
+angular/node_modules
+
+# misc
+angular/.sass-cache
+angular/connect.lock
+angular/coverage
+angular/libpeerconnection.log
+angular/npm-debug.log
+angular/testem.log
+angular/typings
+
+# e2e
+angular/e2e/*.js
+angular/e2e/*.map
+
+
+# IDE folder                          #
+#######################################
+.idea/
+# IDEs and editors
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+
+# IDE - VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# OS generated files                  #
+#######################################
+.DS_Store*
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Include all .htaccess & .gitkeep    #
+#######################################
+!.htaccess
+!.gitkeep

@@ -1,1 +1,0 @@
-/userhome/projects/phingtasks/vendor/eyes/vagrant/Vagrantfile

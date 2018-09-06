@@ -1,0 +1,34 @@
+/**
+ * Commodity trading network
+ */
+namespace org.collectable.penguin
+
+asset Penguin identified by name {
+    o String name
+    o String description
+    --> Collector owner optional
+}
+
+participant Collector identified by collectorId {
+    o String collectorId
+    o String firstName
+    o String lastName
+}
+
+participant Regulator identified by regId {
+  	o String regId
+    o String firstName
+    o String lastName
+}
+
+transaction Trade {
+    --> Penguin penguin
+    --> Collector newOwner
+}
+
+event TradeNotification {
+    --> Penguin penguin
+}
+
+transaction _demoSetup {
+}

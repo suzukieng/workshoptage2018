@@ -1,0 +1,52 @@
+#
+# Copyright 4eyes GmbH (https://www.4eyes.ch/) All Rights Reserved.
+#
+# This file contains all configured containers which needed to build/start the network.
+# The configurations are extend from the docker-compose-base files which located in docker-compose-base folder
+#
+
+version: '2'
+
+volumes:
+  ca.org1.DOMAIN:
+  orderer.DOMAIN:
+  peer0.org1.DOMAIN:
+  couchdb0.peer0.org1.DOMAIN:
+
+networks:
+  NETWORK-NAME:
+
+services:
+
+  ca.org1:
+    extends:
+      file: docker-compose-base/docker-compose-ca-base.yaml
+      service: ca.org1
+    networks:
+      - ${HYPERLEDGER_FRAMEWORK_NAME}
+
+  orderer:
+    extends:
+      file: docker-compose-base/docker-compose-base.yaml
+      service: orderer
+    depends_on:
+      - ca.org1
+    networks:
+      - ${HYPERLEDGER_FRAMEWORK_NAME}
+
+  couchdb0.peer0.org1:
+    extends:
+      file: docker-compose-base/docker-compose-base.yaml
+      service: couchdb0.peer0.org1
+    networks:
+      - ${HYPERLEDGER_FRAMEWORK_NAME}
+
+  peer0.org1:
+    extends:
+      file: docker-compose-base/docker-compose-base.yaml
+      service: peer0.org1
+    depends_on:
+      - couchdb0.peer0.org1
+      - orderer
+    networks:
+      - ${HYPERLEDGER_FRAMEWORK_NAME}
