@@ -35,7 +35,8 @@ function tradePenguin(trade) {
 }
 
 /**
- * @param {org.collectable.penguin._demoSetup}
+ * Creates some assets
+ * @param {org.collectable.penguin._demoSetup} demo - demoSetup
  * @transaction
  */
 function setup(){
