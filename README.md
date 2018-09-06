@@ -85,3 +85,10 @@ add the clientID and clientSecret values to COMPOSER_PROVIDERS object in fabric/
 - $ npm install
 - $ ng start
 - Open http://localhost:4200/ on your browser
+- click login with github
+- Enter your github username and password
+
+### Dem setup (creates some assets)
+- $ cd composer/
+- $ ./composer.sh -m demoSetup
+- got to your browser and update the browser window where your application is running

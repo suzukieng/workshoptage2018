@@ -20,7 +20,7 @@ set +o allexport
 # Print the usage message
 function printHelp () {
   echo "Usage: "
-  echo "  ./composer-network.sh -m build|deploy|update|start|stop|recreate"
+  echo "  ./composer-network.sh -m build|deploy|update|start|stop|recreate|demoSetup"
   echo "  ./composer-network.sh -h|--help (print this message)"
   echo "    -m <mode> - one of 'build', 'deploy'"
   echo "      - 'build' - build the network"
@@ -29,6 +29,8 @@ function printHelp () {
   echo "      - 'start' - start composer-cli container"
   echo "      - 'stop' - create composer-cli container"
   echo "      - 'recreate' - recreate composer-cli container"
+  echo "      - 'recreate' - recreate composer-cli container"
+  echo "      - 'demoSetup' - run demo setup"
 }
 
 # Connection credentials
@@ -127,6 +129,8 @@ EOF
 # create node container and install composer-cli on it
 function buildComposer () {
   rm -rf ${DIR}/.composer
+
+  mkdir ${DIR}/.composer
 
   runComposerContainer
 
@@ -292,6 +296,12 @@ function stop() {
     docker stop ${COMPOSER_CONTAINER_NAME}
 }
 
+function demoSetup() {
+    askNetworkName
+    TIMESTAMP=$(date +%s)
+    docker exec ${COMPOSER_CONTAINER_NAME} composer transaction submit -c ${CA_USER_ENROLLMENT}@${COMPOSER_NETWORK_NAME} -d '{"$class":"org.collectable.penguin._demoSetup","transactionId":"TRANSACTION_'${TIMESTAMP}'"}'
+}
+
 NUMBER_OF_FILES=$(ls network-archives/ | wc -l)
 NETWORK_ARCHIVE_VERSION=$(( ${NUMBER_OF_FILES}+1 ))
 CERT_FILE_NAME=Admin@org1.${DOMAIN}-cert.pem
@@ -324,6 +334,8 @@ if [ "$MODE" == "build" ]; then
     EXPMODE="Recreating composer-cli container"
   elif [ "$MODE" == "stop" ]; then
     EXPMODE="Stopping composer-cli container"
+  elif [ "$MODE" == "demoSetup" ]; then
+    EXPMODE="Running demo setup"
 else
   printHelp
   exit 1
@@ -345,6 +357,8 @@ if [ "${MODE}" == "build" ]; then
     stop
   elif [ "${MODE}" == "recreate" ]; then
     recreateComposer
+  elif [ "${MODE}" == "demoSetup" ]; then
+    demoSetup
 else
   printHelp
   exit 1
