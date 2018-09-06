@@ -1,5 +1,5 @@
 #
-# Copyright Waleed El Sayed All Rights Reserved.
+# Copyright 4eyes GmbH (https://www.4eyes.ch/) All Rights Reserved.
 #
 # This file contains all configured containers which needed to build/start the network.
 # The configurations are extend from the docker-compose-base files which located in docker-compose-base folder

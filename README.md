@@ -1,4 +1,4 @@
-# 4eyes GmbH
+# 4eyes GmbH (https://www.4eyes.ch/) 
 
 These instructions are only for MacOSX and Linux (Debian or Ubuntu).
 

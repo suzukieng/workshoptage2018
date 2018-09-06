@@ -1,7 +1,7 @@
 #!/bin/bash -eu
 
 #
-# Copyright Waleed El Sayed All Rights Reserved.
+# Copyright 4eyes GmbH (https://www.4eyes.ch/) All Rights Reserved.
 #
 # Adaption from: https://raw.githubusercontent.com/hyperledger/fabric/master/scripts/bootstrap.sh
 #

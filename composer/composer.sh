@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #
-# Copyright Waleed El Sayed All Rights Reserved.
+# Copyright 4eyes GmbH (https://www.4eyes.ch/) All Rights Reserved.
 #
 
 #

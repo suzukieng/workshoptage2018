@@ -5,8 +5,7 @@
   "scripts": {
     "test": "mocha --recursive"
   },
-  "author": "Waleed El Sayed",
-  "email": "waleed@4eyes.ch",
+  "author": "Hyperledger Composer",
   "license": "Apache-2.0",
   "deependencies": {
     "composer-admin": "latest",
