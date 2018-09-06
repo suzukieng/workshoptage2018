@@ -6,7 +6,7 @@ These instructions are only for MacOSX and Linux (Debian or Ubuntu).
 - cURL -> MacOSX: http://macappstore.org/curl & Ubuntu: $ sudo apt install curl 
 - git -> https://git-scm.com/book/en/v2/Getting-Started-Installing-Git
 - Docker & Docker Compose -> https://docs.docker.com/compose/install/
-- nodejs (lts version) & npm -> https://nodejs.org/en/download/package-manager/
+- nodejs (8lts version) & npm -> https://nodejs.org/en/download/package-manager/
 
 ## Quick start
 
