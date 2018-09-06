@@ -10,6 +10,10 @@ These instructions are only for MacOSX and Linux (Debian or Ubuntu).
 
 ## Quick start
 
+### Clone the Repository
+- $ git clone https://github.com/4eyes/workshoptage2018.git
+- $ cd workshoptage2018
+
 ### Fabric
 - $ cd fabric
 
