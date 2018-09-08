@@ -1,4 +1,13 @@
-# 4eyes GmbH (https://www.4eyes.ch/) 
+# Workshoptage 2018 - Blockchain Workshop
+
+Let's build a Blockchain application based on [Hyperledger Fabric](https://www.hyperledger.org/projects/fabric)
+and [Hyperledger Composer](https://www.hyperledger.org/projects/composer).
+
+## About us
+The workshop is held by  [Waleed El Sayed](https://www.linkedin.com/in/waleed-el-sayed-039b62113/) and [Markus Stauffiger](https://www.linkedin.com/in/stauffiger/),
+both member of the [Blockchain consultancy and engineering team at **4eyes**](https://www.4eyes.ch/) 
+
+## Supported platforms
 
 These instructions are only for MacOSX and Linux (Debian or Ubuntu).
 
