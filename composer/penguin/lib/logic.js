@@ -40,42 +40,42 @@ function tradePenguin(trade) {
  * @param {org.collectable.penguin._demoSetup} demo - demoSetup
  * @transaction
  */
-function setup(){
+function setup() {
     var factory = getFactory();
     var NS = 'org.collectable.penguin';
     var collectors = [
-        factory.newResource(NS,'Collector','CAROLINE'),
-        factory.newResource(NS,'Collector','TRACY'),
-        factory.newResource(NS,'Collector','TOM'),
-        factory.newResource(NS,'Collector','WHOLESALER')
+        factory.newResource(NS, 'Collector', 'CAROLINE'),
+        factory.newResource(NS, 'Collector', 'TRACY'),
+        factory.newResource(NS, 'Collector', 'TOM'),
+        factory.newResource(NS, 'Collector', 'WHOLESALER')
     ];
 
 
     var penguins = [
-        factory.newResource(NS,'Penguin','Pingu'),
-        factory.newResource(NS,'Penguin','Pinga'),
-        factory.newResource(NS,'Penguin','Pingo'),
-        factory.newResource(NS,'Penguin','Pongy'),
-        factory.newResource(NS,'Penguin','Punki')
+        factory.newResource(NS, 'Penguin', 'Pingu'),
+        factory.newResource(NS, 'Penguin', 'Pinga'),
+        factory.newResource(NS, 'Penguin', 'Pingo'),
+        factory.newResource(NS, 'Penguin', 'Pongy'),
+        factory.newResource(NS, 'Penguin', 'Punki')
     ];
 
     /* add the resource and the traders */
-    return getParticipantRegistry(NS+'.Collector')
-        .then(function(collectorRegistry){
-            collectors.forEach(function(collector) {
+    return getParticipantRegistry(NS + '.Collector')
+        .then(function (collectorRegistry) {
+            collectors.forEach(function (collector) {
 
                 collector.firstName = collector.getIdentifier().toLowerCase();
                 collector.lastName = 'Collector';
             });
             return collectorRegistry.addAll(collectors);
         })
-        .then(function(){
-            return getAssetRegistry(NS+'.Penguin');
+        .then(function () {
+            return getAssetRegistry(NS + '.Penguin');
         })
-        .then(function(assetRegistry){
-            penguins.forEach(function(penguin) {
-                penguin.description='My name is '+penguin.getIdentifier();
-                penguin.owner = factory.newRelationship(NS,'Collector','WHOLESALER');
+        .then(function (assetRegistry) {
+            penguins.forEach(function (penguin) {
+                penguin.description = 'My name is ' + penguin.getIdentifier();
+                penguin.owner = factory.newRelationship(NS, 'Collector', 'WHOLESALER');
             });
             return assetRegistry.addAll(penguins);
         });
