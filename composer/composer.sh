@@ -300,6 +300,8 @@ function stop() {
 # removing container, cards and bna files
 function down() {
 
+    askNetworkName
+
     docker stop ${COMPOSER_CONTAINER_NAME} || true && docker rm -f ${COMPOSER_CONTAINER_NAME} || true
 
     # remove ledger data
@@ -308,11 +310,37 @@ function down() {
       rm -rf ${DIR}/.composer
       rm -rf ${DIR}/cards/*.card
       rm -rf ${DIR}/network-archives/*.bna
+      rm -rf ${DIR}/${COMPOSER_NETWORK_NAME}/package.json
     else
       sudo rm -rf ${DIR}/.composer
       sudo rm -rf ${DIR}/cards/*.card
       sudo rm -rf ${DIR}/network-archives/*.bna
+      sudo rm -rf ${DIR}/${COMPOSER_NETWORK_NAME}/package.json
     fi
+
+cat << EOF > ${COMPOSER_NETWORK_NAME}/package.json
+{
+  "name": "${COMPOSER_NETWORK_NAME}",
+  "version": "0.0.1",
+  "description": "Hyperledger Composer Network Definition",
+  "scripts": {
+    "test": "mocha --recursive"
+  },
+  "author": "Hyperledger Composer",
+  "license": "Apache-2.0",
+  "deependencies": {
+    "composer-admin": "latest",
+    "composer-client": "latest",
+    "composer-common": "latest",
+    "composer-connector-embedded": "latest",
+    "chai": "latest",
+    "eslint": "latest",
+    "istanbul": "latest",
+    "mkdirp": "latest",
+    "mocha": "latest"
+  }
+}
+EOF
 }
 
 function demoSetup() {
