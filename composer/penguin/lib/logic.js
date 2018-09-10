@@ -27,6 +27,7 @@ function tradePenguin(trade) {
             // emit a notification that a trade has occurred
             var tradeNotification = getFactory().newEvent('org.collectable.penguin', 'TradeNotification');
             tradeNotification.penguin = trade.penguin;
+            tradeNotification.newOwner = trade.newOwner;
             emit(tradeNotification);
 
             // persist the state of the commodity

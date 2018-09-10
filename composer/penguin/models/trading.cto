@@ -28,6 +28,7 @@ transaction Trade {
 
 event TradeNotification {
     --> Penguin penguin
+    --> Collector newOwner
 }
 
 transaction _demoSetup {
