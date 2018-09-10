@@ -52,11 +52,18 @@ function setup() {
 
 
     var penguins = [
-        factory.newResource(NS, 'Penguin', 'Pingu'),
-        factory.newResource(NS, 'Penguin', 'Pinga'),
-        factory.newResource(NS, 'Penguin', 'Pingo'),
-        factory.newResource(NS, 'Penguin', 'Pongy'),
-        factory.newResource(NS, 'Penguin', 'Punki')
+        factory.newResource(NS, 'Penguin', 'Gentoo'),
+        factory.newResource(NS, 'Penguin', 'Macaroni'),
+        factory.newResource(NS, 'Penguin', 'Adelie'),
+        factory.newResource(NS, 'Penguin', 'African'),
+        factory.newResource(NS, 'Penguin', 'Chinstrap'),
+        factory.newResource(NS, 'Penguin', 'Emperor'),
+        factory.newResource(NS, 'Penguin', 'Galapagos'),
+        factory.newResource(NS, 'Penguin', 'Little'),
+        factory.newResource(NS, 'Penguin', 'King'),
+        factory.newResource(NS, 'Penguin', 'Rockhopper'),
+        factory.newResource(NS, 'Penguin', 'Royal'),
+        factory.newResource(NS, 'Penguin', 'Snares'),
     ];
 
     /* add the resource and the traders */
