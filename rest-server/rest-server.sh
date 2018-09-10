@@ -121,7 +121,6 @@ function createContainers() {
         -v ${DIR}/.mongodb/entrypoint:/docker-entrypoint-initdb.d \
         --name ${MONGO_CONTAINER_NAME} \
         --network ${FABRIC_DOCKER_NETWORK_NAME} \
-        --restart=always \
         -p 27017:27017 \
         mongo
 
@@ -143,7 +142,6 @@ function createContainers() {
         -v ${DIR}/.composer:/home/composer/.composer \
         --name single-user-rest-server.${DOMAIN} \
         --network ${FABRIC_DOCKER_NETWORK_NAME} \
-        --restart=always \
         -p 3001:3001 \
         ${DOMAIN}/rest-server
 
@@ -164,7 +162,6 @@ function createContainers() {
         -v ${DIR}/.composer:/home/composer/.composer \
         --name ${REST_CONTAINER_NAME} \
         --network ${FABRIC_DOCKER_NETWORK_NAME} \
-        --restart=always \
         -p 3000:3000 \
         ${DOMAIN}/rest-server
 }

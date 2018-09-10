@@ -29,4 +29,5 @@ services:
       - TZ=${TIME_ZONE}
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
     command: peer node start
-    restart: always
+    # Start the container when docker starts
+    # restart: always

@@ -154,7 +154,6 @@ function runComposerContainer() {
       -v ${DIR}/.composer:/home/composer/.composer \
       --name ${COMPOSER_CONTAINER_NAME} \
       --network ${FABRIC_DOCKER_NETWORK_NAME} \
-      --restart=always \
       -p 9090:9090 \
       --entrypoint /bin/sh \
       hyperledger/composer-cli:0.19.14
