@@ -76,7 +76,7 @@ function setup(){
             penguins.forEach(function(penguin) {
                 penguin.description='My name is '+penguin.getIdentifier();
                 penguin.owner = factory.newRelationship(NS,'Collector','WHOLESALER');
-            })
+            });
             return assetRegistry.addAll(penguins);
         });
 }
