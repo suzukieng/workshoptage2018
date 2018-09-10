@@ -20,7 +20,7 @@ set +o allexport
 # Print the usage message
 function printHelp () {
   echo "Usage: "
-  echo "  ./composer-network.sh -m build|deploy|update|start|stop|recreate|demoSetup"
+  echo "  ./composer-network.sh -m build|deploy|update|start|stop|down|recreate|demoSetup"
   echo "  ./composer-network.sh -h|--help (print this message)"
   echo "    -m <mode> - one of 'build', 'deploy'"
   echo "      - 'build' - build the network"
@@ -28,6 +28,7 @@ function printHelp () {
   echo "      - 'upgrade' - upgrade the network"
   echo "      - 'start' - start composer-cli container"
   echo "      - 'stop' - create composer-cli container"
+  echo "      - 'down' - removing container, cards and bna files"
   echo "      - 'recreate' - recreate composer-cli container"
   echo "      - 'recreate' - recreate composer-cli container"
   echo "      - 'demoSetup' - run demo setup"
@@ -295,6 +296,25 @@ function stop() {
     docker stop ${COMPOSER_CONTAINER_NAME}
 }
 
+
+# removing container, cards and bna files
+function down() {
+
+    docker stop ${COMPOSER_CONTAINER_NAME} || true && docker rm -f ${COMPOSER_CONTAINER_NAME} || true
+
+    # remove ledger data
+    ARCH=`uname -s | grep Darwin`
+    if [ "$ARCH" == "Darwin" ]; then
+      rm -rf ${DIR}/.composer
+      rm -rf ${DIR}/cards/*.card
+      rm -rf ${DIR}/network-archives/*.bna
+    else
+      sudo rm -rf ${DIR}/.composer
+      sudo rm -rf ${DIR}/cards/*.card
+      sudo rm -rf ${DIR}/network-archives/*.bna
+    fi
+}
+
 function demoSetup() {
     askNetworkName
     TIMESTAMP=$(date +%s)
@@ -333,6 +353,8 @@ if [ "$MODE" == "build" ]; then
     EXPMODE="Recreating composer-cli container"
   elif [ "$MODE" == "stop" ]; then
     EXPMODE="Stopping composer-cli container"
+  elif [ "$MODE" == "down" ]; then
+    EXPMODE="Removing container, cards and bna files"
   elif [ "$MODE" == "demoSetup" ]; then
     EXPMODE="Running demo setup"
 else
@@ -356,6 +378,8 @@ if [ "${MODE}" == "build" ]; then
     stop
   elif [ "${MODE}" == "recreate" ]; then
     recreateComposer
+  elif [ "${MODE}" == "down" ]; then
+    down
   elif [ "${MODE}" == "demoSetup" ]; then
     demoSetup
 else
