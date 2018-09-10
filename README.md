@@ -39,13 +39,12 @@ if you want to change the logging level of the peers you can change the FABRIC_L
 now if you run 'docker ps' you wil see that all containers are running
 
 ### Composer
+- $ cd composer/
 
 #### Install Composer (for first time setup)
-- $ cd composer/
 - $ ./composer.sh -m build
 
 #### Deploy the network and create the cards (Business network name is 'penguin') (for first time setup)
-- $ cd composer/
 - $ ./composer.sh -m deploy     # business network name is 'penguin' & it will take a while ;)
 
 ### Rest Server & mongo containers (Business network name is 'penguin') (for first time setup)
@@ -104,6 +103,10 @@ add the clientID and clientSecret values to COMPOSER_PROVIDERS object in fabric/
 - $ cd composer/
 - $ ./composer.sh -m recreate
 
+### Remove the composer container including the data 
+- $ cd composer
+- $ ./composer.sh -m down
+
 ### Start or stop the rest Server & mongo containers (not for first time setup) (not for first time setup)
 - $ cd rest-server/
 - $ ./rest-server.sh -m start
@@ -112,3 +115,11 @@ add the clientID and clientSecret values to COMPOSER_PROVIDERS object in fabric/
 ### Recreate the containers without losing the data (not for first time setup)
 - $ cd rest-server/
 - $ ./rest-server.sh -m recreate
+
+### Remove the rest & mongo containers including the data 
+- $ cd rest-server/
+- $ ./rest-server.sh -m down
+
+## Hints
+- composer business network (penguin) is adapted from [https://github.com/caroline-church/collectable-penguin-app/blob/master/collectable-penguin-network.bna]
+- The client app (angular) is adapted from [https://github.com/caroline-church/collectable-penguin-app]
