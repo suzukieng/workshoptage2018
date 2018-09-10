@@ -32,7 +32,8 @@ services:
       - ../crypto-config/ordererOrganizations/${DOMAIN}/orderers/orderer.${DOMAIN}/msp:/var/hyperledger/orderer/msp
       - ../crypto-config/ordererOrganizations/${DOMAIN}/orderers/orderer.${DOMAIN}/tls/:/var/hyperledger/orderer/tls
       - ../ledger/orderer.${DOMAIN}:/var/hyperledger/production/orderer
-    restart: always
+    # Start the container when docker starts
+    # restart: always
     ports:
       - 7050:7050
 
@@ -47,7 +48,8 @@ services:
       - TZ=${TIME_ZONE}
     volumes:
       - ../ledger/couchdb0.peer0.org1.${DOMAIN}:/opt/couchdb/data
-    restart: always
+    # Start the container when docker starts
+    # restart: always
     # Comment/Uncomment the port mapping if you want to hide/expose the CouchDB service.
     ports:
       - 5984:5984

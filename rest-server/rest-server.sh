@@ -18,7 +18,7 @@ set +o allexport
 # Print the usage message
 function printHelp () {
   echo "Usage: "
-  echo "  ./rest-server.sh -m build|start|stop|recreate"
+  echo "  ./rest-server.sh -m build|start|stop|down|recreate"
   echo "  ./rest-server.sh -h|--help (print this message)"
   echo "    -m <mode> - one of 'build', 'start'"
   echo "      - 'build' - pull the docker images and start the containers"
@@ -121,7 +121,6 @@ function createContainers() {
         -v ${DIR}/.mongodb/entrypoint:/docker-entrypoint-initdb.d \
         --name ${MONGO_CONTAINER_NAME} \
         --network ${FABRIC_DOCKER_NETWORK_NAME} \
-        --restart=always \
         -p 27017:27017 \
         mongo
 
@@ -143,7 +142,6 @@ function createContainers() {
         -v ${DIR}/.composer:/home/composer/.composer \
         --name single-user-rest-server.${DOMAIN} \
         --network ${FABRIC_DOCKER_NETWORK_NAME} \
-        --restart=always \
         -p 3001:3001 \
         ${DOMAIN}/rest-server
 
@@ -164,7 +162,6 @@ function createContainers() {
         -v ${DIR}/.composer:/home/composer/.composer \
         --name ${REST_CONTAINER_NAME} \
         --network ${FABRIC_DOCKER_NETWORK_NAME} \
-        --restart=always \
         -p 3000:3000 \
         ${DOMAIN}/rest-server
 }
@@ -187,6 +184,23 @@ function start() {
 # stop the docker containers
 function stop() {
     docker stop ${MONGO_CONTAINER_NAME} ${REST_CONTAINER_NAME} single-user-rest-server.${DOMAIN}
+}
+
+# removing containers and cards
+function down() {
+
+    # remove old containers and images
+    docker stop ${MONGO_CONTAINER_NAME} ${REST_CONTAINER_NAME} single-user-rest-server.${DOMAIN} || true && docker rm -f ${MONGO_CONTAINER_NAME} ${REST_CONTAINER_NAME} single-user-rest-server.${DOMAIN} || true && docker rmi -f ${DOMAIN}/rest-server || true
+
+    # remove ledger data
+    ARCH=`uname -s | grep Darwin`
+    if [ "$ARCH" == "Darwin" ]; then
+      rm -rf ${DIR}/.composer
+      rm -rf ${DIR}/.mongodb
+    else
+      sudo rm -rf ${DIR}/.composer
+      sudo rm -rf ${DIR}/.mongodb
+    fi
 }
 
 
@@ -213,6 +227,8 @@ if [ "$MODE" == "build" ]; then
     EXPMODE="Starting"
   elif [ "$MODE" == "stop" ]; then
     EXPMODE="Stopping"
+  elif [ "$MODE" == "down" ]; then
+    EXPMODE="Remove the containers"
   elif [ "$MODE" == "recreate" ]; then
     EXPMODE="Recreating"
 else
@@ -230,6 +246,8 @@ if [ "${MODE}" == "build" ]; then
     start
   elif [ "${MODE}" == "stop" ]; then
     stop
+  elif [ "${MODE}" == "down" ]; then
+    down
   elif [ "${MODE}" == "recreate" ]; then
     recreate
 else
