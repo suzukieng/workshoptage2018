@@ -196,7 +196,12 @@ function networkDown () {
     rm -f $COMPOSE_CA_FILE $COMPOSE_FILE $CLI_COMPOSE_FILE
 
     # remove ledger data
-    rm -rf ./ledger
+    ARCH=`uname -s | grep Darwin`
+    if [ "$ARCH" == "Darwin" ]; then
+      rm -rf ./ledger
+    else
+      sudo rm -rf ./ledger
+    fi
 }
 
 # Using docker-compose-ca-base-template.yaml, replace constants with private key file names
