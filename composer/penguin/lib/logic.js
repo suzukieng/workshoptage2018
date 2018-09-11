@@ -19,7 +19,9 @@
  */
 function tradePenguin(trade) {
 
-    // set the new owner of the commodity
+    var oldOwner = trade.penguin.owner;
+
+    // set the new owner of the penguin
     trade.penguin.owner = trade.newOwner;
     return getAssetRegistry('org.collectable.penguin.Penguin')
         .then(function (assetRegistry) {
@@ -27,9 +29,11 @@ function tradePenguin(trade) {
             // emit a notification that a trade has occurred
             var tradeNotification = getFactory().newEvent('org.collectable.penguin', 'TradeNotification');
             tradeNotification.penguin = trade.penguin;
+            tradeNotification.oldOwner = oldOwner;
+            tradeNotification.newOwner = trade.newOwner;
             emit(tradeNotification);
 
-            // persist the state of the commodity
+            // persist the state of the penguin
             return assetRegistry.update(trade.penguin);
         });
 }
@@ -39,43 +43,50 @@ function tradePenguin(trade) {
  * @param {org.collectable.penguin._demoSetup} demo - demoSetup
  * @transaction
  */
-function setup(){
+function setup() {
     var factory = getFactory();
     var NS = 'org.collectable.penguin';
     var collectors = [
-        factory.newResource(NS,'Collector','CAROLINE'),
-        factory.newResource(NS,'Collector','TRACY'),
-        factory.newResource(NS,'Collector','TOM'),
-        factory.newResource(NS,'Collector','WHOLESALER')
+        factory.newResource(NS, 'Collector', 'CAROLINE'),
+        factory.newResource(NS, 'Collector', 'TRACY'),
+        factory.newResource(NS, 'Collector', 'TOM'),
+        factory.newResource(NS, 'Collector', 'WHOLESALER')
     ];
 
 
     var penguins = [
-        factory.newResource(NS,'Penguin','Pingu'),
-        factory.newResource(NS,'Penguin','Pinga'),
-        factory.newResource(NS,'Penguin','Pingo'),
-        factory.newResource(NS,'Penguin','Pongy'),
-        factory.newResource(NS,'Penguin','Punki')
+        factory.newResource(NS, 'Penguin', 'Gentoo'),
+        factory.newResource(NS, 'Penguin', 'Macaroni'),
+        factory.newResource(NS, 'Penguin', 'Adelie'),
+        factory.newResource(NS, 'Penguin', 'African'),
+        factory.newResource(NS, 'Penguin', 'Chinstrap'),
+        factory.newResource(NS, 'Penguin', 'Emperor'),
+        factory.newResource(NS, 'Penguin', 'Galapagos'),
+        factory.newResource(NS, 'Penguin', 'Little'),
+        factory.newResource(NS, 'Penguin', 'King'),
+        factory.newResource(NS, 'Penguin', 'Rockhopper'),
+        factory.newResource(NS, 'Penguin', 'Royal'),
+        factory.newResource(NS, 'Penguin', 'Snares'),
     ];
 
     /* add the resource and the traders */
-    return getParticipantRegistry(NS+'.Collector')
-        .then(function(collectorRegistry){
-            collectors.forEach(function(collector) {
+    return getParticipantRegistry(NS + '.Collector')
+        .then(function (collectorRegistry) {
+            collectors.forEach(function (collector) {
 
                 collector.firstName = collector.getIdentifier().toLowerCase();
                 collector.lastName = 'Collector';
             });
             return collectorRegistry.addAll(collectors);
         })
-        .then(function(){
-            return getAssetRegistry(NS+'.Penguin');
+        .then(function () {
+            return getAssetRegistry(NS + '.Penguin');
         })
-        .then(function(assetRegistry){
-            penguins.forEach(function(penguin) {
-                penguin.description='My name is '+penguin.getIdentifier();
-                penguin.owner = factory.newRelationship(NS,'Collector','WHOLESALER');
-            })
+        .then(function (assetRegistry) {
+            penguins.forEach(function (penguin) {
+                penguin.description = 'My name is ' + penguin.getIdentifier();
+                penguin.owner = factory.newRelationship(NS, 'Collector', 'WHOLESALER');
+            });
             return assetRegistry.addAll(penguins);
         });
 }

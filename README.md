@@ -123,3 +123,8 @@ add the clientID and clientSecret values to COMPOSER_PROVIDERS object in fabric/
 ## Hints
 - composer business network (penguin) is adapted from [https://github.com/caroline-church/collectable-penguin-app/blob/master/collectable-penguin-network.bna]
 - The client app (angular) is adapted from [https://github.com/caroline-church/collectable-penguin-app]
+
+## Links
+- Hyperledger Fabric Documentation: https://hyperledger-fabric.readthedocs.io/en/release-1.1/
+- Hyperledger Composer Documentation: https://hyperledger.github.io/composer/latest/installing/installing-index.html
+- Hyperledger Composer Playground: https://composer-playground.mybluemix.net/
