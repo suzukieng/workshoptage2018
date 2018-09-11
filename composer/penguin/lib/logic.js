@@ -19,7 +19,9 @@
  */
 function tradePenguin(trade) {
 
-    // set the new owner of the commodity
+    var oldOwner = trade.penguin.owner;
+
+    // set the new owner of the penguin
     trade.penguin.owner = trade.newOwner;
     return getAssetRegistry('org.collectable.penguin.Penguin')
         .then(function (assetRegistry) {
@@ -27,10 +29,11 @@ function tradePenguin(trade) {
             // emit a notification that a trade has occurred
             var tradeNotification = getFactory().newEvent('org.collectable.penguin', 'TradeNotification');
             tradeNotification.penguin = trade.penguin;
+            tradeNotification.oldOwner = oldOwner;
             tradeNotification.newOwner = trade.newOwner;
             emit(tradeNotification);
 
-            // persist the state of the commodity
+            // persist the state of the penguin
             return assetRegistry.update(trade.penguin);
         });
 }

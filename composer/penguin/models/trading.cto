@@ -28,6 +28,7 @@ transaction Trade {
 
 event TradeNotification {
     --> Penguin penguin
+    --> Collector oldOwner
     --> Collector newOwner
 }
 
